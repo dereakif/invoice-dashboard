@@ -1,0 +1,34 @@
+@import "~antd/dist/antd.css";
+.App {
+  height: 100%;
+}
+section.ant-layout.ant-layout-has-sider {
+  height: 100%;
+}
+.ant-layout-sider {
+  background: #fff;
+}
+.ant-layout-sider-children {
+  padding-top: 1rem;
+}
+.site-layout-sub-header-background {
+  background: #fff;
+  padding: 0;
+  height: 100px;
+  display: flex;
+  align-items: center;
+}
+.site-layout-sub-header-background > h1 {
+  font-weight: 600;
+  margin-left: 2.5rem;
+}
+
+.ant-layout-content {
+  margin: 24px 16px 0;
+}
+
+.site-layout-background {
+  background: #fff;
+  padding: 24;
+  min-height: 360;
+}
