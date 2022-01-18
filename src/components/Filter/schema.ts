@@ -21,12 +21,12 @@ export const Schema: SchemaT = {
   date: {
     name: "Date",
     type: "datetime",
-    ops: ["eq", "ne", "gt", "lt", "ge", "le"],
+    ops: ["eq", "neq", "gt", "lt", "ge", "le"],
   },
   amount: {
     name: "Amount",
     type: "money",
-    ops: ["eq", "ne", "gt", "lt", "ge", "le"],
+    ops: ["eq", "neq", "gt", "lt", "ge", "le"],
   },
   status: {
     name: "Status",
