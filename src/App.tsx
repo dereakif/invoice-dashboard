@@ -1,27 +1,22 @@
 import "./App.css";
-import { Col, Layout, Menu, Row } from "antd";
+import { Layout, Menu } from "antd";
 import {
   UploadOutlined,
   UserOutlined,
   VideoCameraOutlined,
 } from "@ant-design/icons";
+import TableContainer from "./components/TableContainer";
+import { Typography } from "antd";
+
+const { Title } = Typography;
 
 const { Header, Content, Sider } = Layout;
 function App() {
   return (
     <div className="App">
       <Layout>
-        <Sider
-          breakpoint="lg"
-          collapsedWidth="0"
-          onBreakpoint={(broken) => {
-            console.log(broken);
-          }}
-          onCollapse={(collapsed, type) => {
-            console.log(collapsed, type);
-          }}
-        >
-          <Menu mode="inline" defaultSelectedKeys={["4"]}>
+        <Sider breakpoint="lg" collapsedWidth="0">
+          <Menu mode="inline" defaultSelectedKeys={["1"]}>
             <Menu.Item key="1" icon={<UserOutlined />}>
               Faturalar
             </Menu.Item>
@@ -38,10 +33,12 @@ function App() {
         </Sider>
         <Layout>
           <Header className="site-layout-sub-header-background">
-            <h1>Faturalar</h1>
+            <Title style={{ marginLeft: "2.5rem" }} level={3}>
+              Faturalar
+            </Title>
           </Header>
-          <Content>
-            <div className="site-layout-background">content</div>
+          <Content style={{ margin: "2rem 2.5rem 0" }}>
+            <TableContainer />
           </Content>
         </Layout>
       </Layout>
