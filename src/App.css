@@ -18,14 +18,6 @@ section.ant-layout.ant-layout-has-sider {
   display: flex;
   align-items: center;
 }
-.site-layout-sub-header-background > h1 {
-  font-weight: 600;
-  margin-left: 2.5rem;
-}
-
-.ant-layout-content {
-  margin: 24px 16px 0;
-}
 
 .site-layout-background {
   background: #fff;
