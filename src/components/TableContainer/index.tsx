@@ -1,14 +1,32 @@
 import { DownloadOutlined, FilterOutlined } from "@ant-design/icons";
 import { Button, Col, Input, Popover, Row, Space, Table, Tag } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { initialTag, TagT } from "../../interfaces/filter.interfaces";
+import { formatDate } from "../../modules/date";
 import Filter from "../Filter";
+import opConverter from "../Filter/opConverter";
 const { Search } = Input;
-
 interface Props {}
 
 const TableContainer = (props: Props) => {
-  const onSearch = (value: string) => console.log(value);
+  const [visible, setVisible] = useState(false);
 
+  const [filters, setFilters] = useState<TagT[]>([]);
+  const [tag, setTag] = useState<TagT>(initialTag);
+
+  useEffect(() => {
+    console.log({ tag });
+  }, [tag]);
+
+  const onSearch = (value: string) => console.log(value);
+  const handleCloseTag = (id: string) => {
+    const indexToRemove = filters.findIndex((tag) => tag.id === id);
+    setFilters((prev) => {
+      let current = [...prev];
+      current.splice(indexToRemove, 1);
+      return current;
+    });
+  };
   const renderStatus = (status: string) => {
     let color = "";
     let text = "";
@@ -35,14 +53,9 @@ const TableContainer = (props: Props) => {
       </Tag>
     );
   };
+
   const renderDate = (date: Date) => (
-    <span>
-      {date.toLocaleString("default", { month: "long" }) +
-        " " +
-        date.getDate() +
-        ", " +
-        date.getFullYear()}
-    </span>
+    <span>{formatDate(date.toISOString())}</span>
   );
 
   const columns = [
@@ -144,7 +157,6 @@ const TableContainer = (props: Props) => {
       status: "paid",
     },
   ];
-  const [visible, setVisible] = useState(false);
   return (
     <Row>
       <Col span={24}>
@@ -158,7 +170,14 @@ const TableContainer = (props: Props) => {
           </Col>
           <Col>
             <Popover
-              content={<Filter setVisible={setVisible} />}
+              content={
+                <Filter
+                  tag={tag}
+                  setFilters={setFilters}
+                  setTag={setTag}
+                  setVisible={setVisible}
+                />
+              }
               title="Filtre ekle"
               placement="leftTop"
               trigger="click"
@@ -170,6 +189,27 @@ const TableContainer = (props: Props) => {
                 <Button icon={<DownloadOutlined />}></Button>
               </Space>
             </Popover>
+          </Col>
+        </Row>
+        <Row style={{ background: "white" }} justify="start">
+          <Col span={24}>
+            {filters.map((tag) => (
+              <Tag
+                style={{ margin: "5px" }}
+                closable
+                onClose={() => handleCloseTag(tag.id)}
+                key={tag.id}
+              >
+                {tag.name === "Date"
+                  ? `${tag.name} ${opConverter(tag.op, "asSign")} ${formatDate(
+                      tag.value
+                    )}`
+                  : `${tag.name} ${opConverter(
+                      tag.op,
+                      "asSign"
+                    )} ${tag.value.toString()}`}
+              </Tag>
+            ))}
           </Col>
         </Row>
         <Row>

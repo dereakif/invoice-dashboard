@@ -2,17 +2,21 @@ import { Button, Col, DatePicker, Input, Row, Select, Space } from "antd";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { SchemaItemT, Schema } from "./schema";
 import opConverter from "./opConverter";
+import { initialTag, TagT } from "../../interfaces/filter.interfaces";
+import { v4 as uuidv4 } from "uuid";
 
 const { Option } = Select;
 
 interface Props {
   setVisible: Dispatch<SetStateAction<boolean>>;
+  tag: TagT;
+  setTag: Dispatch<SetStateAction<TagT>>;
+  setFilters: Dispatch<SetStateAction<TagT[]>>;
 }
-
-const Filter = ({ setVisible }: Props) => {
+const Filter = ({ setVisible, tag, setTag, setFilters }: Props) => {
   const [selectedOption, setSelectedOption] = useState("");
   const [selectedOptionSchema, setSelectedOptionSchema] =
-    useState<SchemaItemT>();
+    useState<SchemaItemT | null>();
 
   useEffect(() => {
     if (selectedOption) {
@@ -23,13 +27,20 @@ const Filter = ({ setVisible }: Props) => {
     }
   }, [selectedOption]);
 
+  const resetStates = () => {
+    setTag(initialTag);
+    setSelectedOption("");
+    setSelectedOptionSchema(null);
+  };
   const getTitleFromOption = () => {
     return (
       <Select
         size="small"
         placeholder="Servis adi"
+        value={tag.name}
         onChange={(value) => {
           setSelectedOption(value);
+          setTag((prev) => ({ ...prev, name: value }));
         }}
         style={{ width: 100 }}
       >
@@ -48,6 +59,8 @@ const Filter = ({ setVisible }: Props) => {
             placeholder="degerler"
             style={{ width: "120px" }}
             size="small"
+            onChange={(value) => setTag((prev) => ({ ...prev, value }))}
+            value={tag.value}
           >
             {selectedOptionSchema?.values?.map((value) => (
               <Option key={value} value={value}>
@@ -63,7 +76,10 @@ const Filter = ({ setVisible }: Props) => {
           <DatePicker
             allowClear
             size="small"
-            onChange={(e) => console.log(e)}
+            onChange={(date, dateString) => {
+              console.log({ dateString });
+              dateString && setTag((prev) => ({ ...prev, value: dateString }));
+            }}
           />
         );
       default:
@@ -73,7 +89,7 @@ const Filter = ({ setVisible }: Props) => {
             size="small"
             style={{ width: "120px" }}
             notFoundContent="Lutfen once baslik seciniz."
-          ></Select>
+          />
         );
     }
   };
@@ -84,15 +100,30 @@ const Filter = ({ setVisible }: Props) => {
         notFoundContent="Lutfen once baslik seciniz."
         placeholder="esitlikler"
         size="small"
+        onChange={(value) => setTag((prev) => ({ ...prev, op: value }))}
+        value={tag.op}
       >
         {selectedOptionSchema?.ops?.map((op) => (
           <Option key={op} value={op}>
-            {opConverter(op)}
+            {opConverter(op, "asText")}
           </Option>
         ))}
       </Select>
     );
   };
+
+  const handleAddTag = () => {
+    if (!tag.name || !tag.op || !tag.value) {
+      return;
+    }
+    setFilters((prev) => {
+      const current = [...prev];
+      current.push({ ...tag, id: uuidv4() });
+      return current;
+    });
+    resetStates();
+  };
+
   return (
     <>
       <Row justify="start">
@@ -118,7 +149,7 @@ const Filter = ({ setVisible }: Props) => {
             <Button size="small" onClick={() => setVisible((s: boolean) => !s)}>
               Iptal
             </Button>
-            <Button size="small" type="primary">
+            <Button onClick={handleAddTag} size="small" type="primary">
               Ekle
             </Button>
           </Space>
