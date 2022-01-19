@@ -11,6 +11,15 @@ export interface SchemaT {
   status: SchemaItemT;
 }
 
+export interface DataItemT {
+  id: number;
+  service: string;
+  invoice_id: number;
+  date: Date;
+  amount: number;
+  status: string;
+}
+
 export const Schema: SchemaT = {
   service: {
     name: "Service",
