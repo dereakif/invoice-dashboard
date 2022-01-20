@@ -1,5 +1,15 @@
 import { DownloadOutlined, FilterOutlined } from "@ant-design/icons";
-import { Button, Col, Input, Popover, Row, Space, Table, Tag } from "antd";
+import {
+  Button,
+  Col,
+  Input,
+  Popover,
+  Row,
+  Space,
+  Table,
+  Tag,
+  Typography,
+} from "antd";
 import { useEffect, useState } from "react";
 import { columns, initialRows, initialTag } from "../../constants";
 import { RowT, TagT } from "../../interfaces/filter.interfaces";
@@ -12,6 +22,7 @@ import {
 import Filter from "../Filter";
 import { Query } from "../../utils/query";
 
+const { Title } = Typography;
 const { Search } = Input;
 
 const TableContainer = () => {
@@ -69,7 +80,7 @@ const TableContainer = () => {
                   setVisible={setVisible}
                 />
               }
-              title="Filtre ekle"
+              title={() => <Title level={5}>Filtre ekle</Title>}
               placement="leftTop"
               trigger="click"
               visible={visible}
