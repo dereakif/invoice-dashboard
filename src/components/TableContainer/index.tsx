@@ -123,6 +123,8 @@ const TableContainer = () => {
               rowSelection={{ type: "checkbox" }}
               columns={columns}
               dataSource={rows}
+              rowKey={"id"}
+              scroll={{ x: 840 }}
             />
           </Col>
         </Row>
