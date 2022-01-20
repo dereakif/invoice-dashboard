@@ -12,34 +12,35 @@ import { Query } from "../Filter/query";
 import statusConverter from "../Filter/statusConverter";
 
 const { Search } = Input;
-interface Props {}
-const TableContainer = (props: Props) => {
+
+const TableContainer = () => {
   const [visible, setVisible] = useState(false);
   const [rows, setRows] = useState<RowT[]>(initialRows);
   const [filters, setFilters] = useState<TagT[]>([]);
   const [tag, setTag] = useState<TagT>(initialTag);
+  const [useInitial, setUseInitial] = useState(false);
 
   useEffect(() => {
     if (filters.length > 0) {
       let filteredRows: RowT[] = [];
+      let dataToFilter = useInitial ? [...initialRows] : [...rows];
       filters.forEach((condition) => {
-        let filteredItem = initialRows.filter((row) => {
-          return Query(
+        filteredRows = dataToFilter.filter((row) =>
+          Query(
             row[condition.name.toLowerCase() as keyof RowT],
             condition.name,
             condition.value,
             condition.op
-          );
-        });
-        filteredRows = filteredRows.concat(filteredItem);
+          )
+        );
       });
       setRows(filteredRows);
+      setUseInitial(false);
     } else {
       setRows(initialRows);
     }
   }, [filters]);
 
-  const onSearch = (value: string) => console.log(value);
   const handleCloseTag = (id: string) => {
     const indexToRemove = filters.findIndex((tag) => tag.id === id);
     setFilters((prev) => {
@@ -47,6 +48,7 @@ const TableContainer = (props: Props) => {
       current.splice(indexToRemove, 1);
       return current;
     });
+    setUseInitial(true);
   };
 
   return (
@@ -54,11 +56,7 @@ const TableContainer = (props: Props) => {
       <Col span={24}>
         <Row justify="space-between" style={{ marginBottom: "2rem" }}>
           <Col>
-            <Search
-              placeholder="Fatura ara"
-              onSearch={onSearch}
-              style={{ width: 320 }}
-            />
+            <Search placeholder="Fatura ara" style={{ width: 320 }} />
           </Col>
           <Col>
             <Popover
