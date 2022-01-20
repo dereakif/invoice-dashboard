@@ -1,10 +1,10 @@
 import { Button, Col, DatePicker, InputNumber, Row, Select, Space } from "antd";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { SchemaItemT, Schema } from "./schema";
-import opConverter from "./opConverter";
-import { initialTag, TagT } from "../../interfaces/filter.interfaces";
+import { TagT } from "../../interfaces/filter.interfaces";
 import { v4 as uuidv4 } from "uuid";
-import statusConverter from "./statusConverter";
+import { SchemaItemT } from "../../interfaces/schema.interfaces";
+import { initialTag, Schema } from "../../constants";
+import { opConverter, statusConverter } from "../../utils";
 
 const { Option } = Select;
 

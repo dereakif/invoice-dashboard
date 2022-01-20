@@ -1,16 +1,15 @@
 import "./App.css";
-import { Layout, Menu } from "antd";
+import { Typography, Layout, Menu } from "antd";
 import {
   UploadOutlined,
   UserOutlined,
   VideoCameraOutlined,
 } from "@ant-design/icons";
 import TableContainer from "./components/TableContainer";
-import { Typography } from "antd";
 
 const { Title } = Typography;
-
 const { Header, Content, Sider } = Layout;
+
 function App() {
   return (
     <div className="App">

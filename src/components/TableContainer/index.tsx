@@ -1,15 +1,16 @@
 import { DownloadOutlined, FilterOutlined } from "@ant-design/icons";
 import { Button, Col, Input, Popover, Row, Space, Table, Tag } from "antd";
 import { useEffect, useState } from "react";
-import { initialTag, RowT, TagT } from "../../interfaces/filter.interfaces";
-import { formatDate } from "../../modules/date";
+import { columns, initialRows, initialTag } from "../../constants";
+import { RowT, TagT } from "../../interfaces/filter.interfaces";
+import {
+  formatDate,
+  nameConverter,
+  opConverter,
+  statusConverter,
+} from "../../utils";
 import Filter from "../Filter";
-import { columns } from "../Filter/columns";
-import initialRows from "../Filter/initialRows";
-import nameConverter from "../Filter/nameConverter";
-import opConverter from "../Filter/opConverter";
-import { Query } from "../Filter/query";
-import statusConverter from "../Filter/statusConverter";
+import { Query } from "../../utils/query";
 
 const { Search } = Input;
 
