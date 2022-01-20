@@ -1,9 +1,10 @@
-import { Button, Col, DatePicker, Input, Row, Select, Space } from "antd";
+import { Button, Col, DatePicker, InputNumber, Row, Select, Space } from "antd";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { SchemaItemT, Schema } from "./schema";
 import opConverter from "./opConverter";
 import { initialTag, TagT } from "../../interfaces/filter.interfaces";
 import { v4 as uuidv4 } from "uuid";
+import statusConverter from "./statusConverter";
 
 const { Option } = Select;
 
@@ -32,6 +33,7 @@ const Filter = ({ setVisible, tag, setTag, setFilters }: Props) => {
     setSelectedOption("");
     setSelectedOptionSchema(null);
   };
+
   const getTitleFromOption = () => {
     return (
       <Select
@@ -45,7 +47,9 @@ const Filter = ({ setVisible, tag, setTag, setFilters }: Props) => {
         style={{ width: 100 }}
       >
         {Object.values(Schema).map((schemaItem) => (
-          <Option value={schemaItem.name}>{schemaItem.name}</Option>
+          <Option key={schemaItem.name} value={schemaItem.name}>
+            {schemaItem.name}
+          </Option>
         ))}
       </Select>
     );
@@ -63,21 +67,33 @@ const Filter = ({ setVisible, tag, setTag, setFilters }: Props) => {
             value={tag.value}
           >
             {selectedOptionSchema?.values?.map((value) => (
-              <Option key={value} value={value}>
+              <Option
+                key={`${selectedOptionSchema.name}-${value}`}
+                value={value}
+              >
                 {value}
               </Option>
             ))}
           </Select>
         );
       case "money":
-        return <Input style={{ width: "120px" }} size="small"></Input>;
+        return (
+          <InputNumber
+            value={tag.value}
+            onChange={(value) =>
+              setTag((prev) => ({ ...prev, value: value.toString() }))
+            }
+            style={{ width: "120px" }}
+            size="small"
+            addonAfter="$"
+          />
+        );
       case "datetime":
         return (
           <DatePicker
             allowClear
             size="small"
             onChange={(date, dateString) => {
-              console.log({ dateString });
               dateString && setTag((prev) => ({ ...prev, value: dateString }));
             }}
           />
@@ -104,7 +120,7 @@ const Filter = ({ setVisible, tag, setTag, setFilters }: Props) => {
         value={tag.op}
       >
         {selectedOptionSchema?.ops?.map((op) => (
-          <Option key={op} value={op}>
+          <Option key={`${selectedOptionSchema.name}-${op}`} value={op}>
             {opConverter(op, "asText")}
           </Option>
         ))}
@@ -118,7 +134,11 @@ const Filter = ({ setVisible, tag, setTag, setFilters }: Props) => {
     }
     setFilters((prev) => {
       const current = [...prev];
-      current.push({ ...tag, id: uuidv4() });
+      const currentTag = tag;
+      if (tag.name === "Status") {
+        currentTag.value = statusConverter(currentTag.value);
+      }
+      current.push({ ...currentTag, id: uuidv4() });
       return current;
     });
     resetStates();
