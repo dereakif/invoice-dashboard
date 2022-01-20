@@ -82,25 +82,30 @@ const TableContainer = () => {
             </Popover>
           </Col>
         </Row>
-        <Row style={{ background: "white" }} justify="start">
-          <Col span={24}>
-            {filters.map((tag) => (
-              <Tag
-                style={{ margin: "5px" }}
-                closable
-                onClose={() => handleCloseTag(tag.id)}
-                key={tag.id}
-              >
-                {`${nameConverter(tag.name)} ${opConverter(tag.op, "asSign")} `}
-                {tag.name === "Date"
-                  ? `${formatDate(tag.value)}`
-                  : tag.name === "Status"
-                  ? ` ${statusConverter(tag.value)}`
-                  : ` ${tag.value.toString()}`}
-              </Tag>
-            ))}
-          </Col>
-        </Row>
+        {filters.length > 0 && (
+          <Row style={{ background: "white" }} justify="start">
+            <Col span={24}>
+              {filters.map((tag) => (
+                <Tag
+                  style={{ margin: "5px" }}
+                  closable
+                  onClose={() => handleCloseTag(tag.id)}
+                  key={tag.id}
+                >
+                  {`${nameConverter(tag.name)} ${opConverter(
+                    tag.op,
+                    "asSign"
+                  )} `}
+                  {tag.name === "Date"
+                    ? `${formatDate(tag.value)}`
+                    : tag.name === "Status"
+                    ? ` ${statusConverter(tag.value)}`
+                    : ` ${tag.value.toString()}`}
+                </Tag>
+              ))}
+            </Col>
+          </Row>
+        )}
         <Row>
           <Col span={24}>
             <Table
