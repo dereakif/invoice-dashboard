@@ -38,7 +38,7 @@ const Filter = ({ setVisible, tag, setTag, setFilters }: Props) => {
     return (
       <Select
         size="small"
-        placeholder="Servis adi"
+        autoFocus={true}
         value={tag.name}
         onChange={(value) => {
           setSelectedOption(value);
@@ -101,7 +101,6 @@ const Filter = ({ setVisible, tag, setTag, setFilters }: Props) => {
       default:
         return (
           <Select
-            placeholder="degerler"
             size="small"
             style={{ width: "120px" }}
             notFoundContent="Lutfen once baslik seciniz."
@@ -114,7 +113,6 @@ const Filter = ({ setVisible, tag, setTag, setFilters }: Props) => {
       <Select
         style={{ width: 120 }}
         notFoundContent="Lutfen once baslik seciniz."
-        placeholder="esitlikler"
         size="small"
         onChange={(value) => setTag((prev) => ({ ...prev, op: value }))}
         value={tag.op}
@@ -149,15 +147,16 @@ const Filter = ({ setVisible, tag, setTag, setFilters }: Props) => {
       <Row justify="start">
         <Space>
           <Col>
-            <p>Baslik</p>
+            <p style={{ marginBottom: "5px" }}>Baslik</p>
             {getTitleFromOption()}
           </Col>
           <Col>
-            <p>Kosul</p>
+            <p style={{ marginBottom: "5px" }}>Kosul</p>
+
             {getConditionFromOption()}
           </Col>
           <Col>
-            <p>Deger</p>
+            <p style={{ marginBottom: "5px" }}>Deger</p>
             {getValueFieldFromOption()}
           </Col>
         </Space>
