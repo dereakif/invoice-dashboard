@@ -51,6 +51,7 @@ const TableContainer = () => {
     } else {
       setRows(initialRows);
     }
+    // eslint-disable-next-line
   }, [filters]);
 
   const handleCloseTag = (id: string) => {
