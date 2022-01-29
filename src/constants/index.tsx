@@ -62,7 +62,7 @@ export const columns = [
     title: "Servis Adi",
     dataIndex: "service",
     key: "service",
-    render: (text: string) => <a>{text}</a>,
+    render: (text: string) => <span>{text}</span>,
     sorter: (a: DataItemT, b: DataItemT) => a.service.localeCompare(b.service),
   },
   {
@@ -97,7 +97,7 @@ export const columns = [
     key: "action",
     render: () => (
       <Space size="middle">
-        <a>Goster</a>
+        <span>Goster</span>
       </Space>
     ),
   },
