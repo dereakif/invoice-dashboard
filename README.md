@@ -1,8 +1,8 @@
-# GoWit Challenge
+# Dashboard Challenge
 
 ## General info
 
-A simple datatable with filter functionality using ant.design UI Framework.\
+A simple datatable with filter functionality using ant.design UI Framework.
 
 ## Technologies
 
